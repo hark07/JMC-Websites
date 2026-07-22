@@ -211,7 +211,7 @@ function Notice() {
 
                   {notice.file && (
                     <a
-                      href={`http://localhost:5000/api/notices/download/${notice._id}`}
+                      href={`https://jmc-websites.onrender.com/api/notices/download/${notice._id}`}
                       className="bg-red-600 hover:bg-red-700 text-white px-6 py-4 rounded-xl flex items-center gap-3 h-fit"
                     >
                       <FaFilePdf />

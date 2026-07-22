@@ -81,7 +81,7 @@ export default function NoticesDownloads() {
                   <p className="font-medium">{download.title}</p>
 
                   <a
-                    href={`http://localhost:5000/api/downloads/file/${download._id}`}
+                    href={`https://jmc-websites.onrender.com/api/downloads/file/${download._id}`}
                     className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-lg"
                   >
                     <FaDownload />

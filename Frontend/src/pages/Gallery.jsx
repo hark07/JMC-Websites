@@ -4,7 +4,7 @@ import { FaImages, FaSearchPlus, FaTimes, FaSpinner } from "react-icons/fa";
 
 import api from "../api/axios";
 
-const IMAGE_URL = "http://localhost:5000";
+const IMAGE_URL = "https://jmc-websites.onrender.com";
 
 // ================= Animation =================
 
