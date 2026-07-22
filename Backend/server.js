@@ -48,7 +48,7 @@ connectDB();
 // ===============================
 
 const allowedOrigins = [
-  "https://janajyotimultiplecampus.netlify.app/",
+  "https://janajyotimultiplecampus.netlify.app",
   "https://jmc-admin.vercel.app",
 ];
 
