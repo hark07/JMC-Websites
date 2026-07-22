@@ -1,18 +1,43 @@
-export const hasPermission = (user, permission) => {
+// =======================================
+// Get Current Logged In Admin
+// =======================================
+
+const getCurrentUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem("admin"));
+  } catch (error) {
+    console.error("Error parsing admin data:", error);
+    return null;
+  }
+};
+
+// =======================================
+// Single Permission Check
+// =======================================
+
+export const hasPermission = (permission) => {
+  const user = getCurrentUser();
+
   if (!user) return false;
 
-  // SUPER ADMIN ALL ACCESS
-
+  // SUPER ADMIN => FULL ACCESS
   if (user.role === "SUPER_ADMIN") {
     return true;
   }
 
-  return user.permissions?.includes(permission);
+  return user.permissions?.includes(permission) || false;
 };
 
-export const hasAnyPermission = (user, permissions = []) => {
+// =======================================
+// Any Permission Check
+// =======================================
+
+export const hasAnyPermission = (permissions = []) => {
+  const user = getCurrentUser();
+
   if (!user) return false;
 
+  // SUPER ADMIN => FULL ACCESS
   if (user.role === "SUPER_ADMIN") {
     return true;
   }
@@ -22,9 +47,16 @@ export const hasAnyPermission = (user, permissions = []) => {
   );
 };
 
-export const hasAllPermissions = (user, permissions = []) => {
+// =======================================
+// All Permissions Check
+// =======================================
+
+export const hasAllPermissions = (permissions = []) => {
+  const user = getCurrentUser();
+
   if (!user) return false;
 
+  // SUPER ADMIN => FULL ACCESS
   if (user.role === "SUPER_ADMIN") {
     return true;
   }
