@@ -3,11 +3,10 @@ dotenv.config();
 
 import dns from "dns";
 
+// ===============================
 // DNS FIX (MongoDB Atlas SRV)
-dns.setServers([
-  "8.8.8.8",
-  "8.8.4.4",
-]);
+// ===============================
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 import express from "express";
 import cors from "cors";
@@ -31,7 +30,6 @@ import galleryRoutes from "./routes/galleryRoutes.js";
 import admissionRoutes from "./routes/admissionRoutes.js";
 import campusChiefMessageRoutes from "./routes/campusChiefMessageRoutes.js";
 
-// Admin Routes
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import otpRoutes from "./routes/otpRoutes.js";
@@ -46,14 +44,32 @@ const app = express();
 connectDB();
 
 // ===============================
-// MIDDLEWARE
+// CORS
 // ===============================
+
+const allowedOrigins = [
+  "https://jmc-admin.vercel.app",
+  "https://janjyotimultiplecampus.netlify.app",
+];
 
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS Not Allowed"));
+      }
+    },
+    credentials: true,
   }),
 );
+
+// ===============================
+// MIDDLEWARE
+// ===============================
 
 app.use(express.json());
 
@@ -64,54 +80,29 @@ app.use(
 );
 
 // ===============================
-// API ROUTES
+// PUBLIC CMS ROUTES
 // ===============================
 
-// Public CMS Routes
-
 app.use("/api/heroes", heroRoutes);
-
 app.use("/api/highlights", highlightRoutes);
-
 app.use("/api/programs", programRoutes);
-
 app.use("/api/events", eventRoutes);
-
 app.use("/api/news", newsRoutes);
-
 app.use("/api/downloads", downloadRoutes);
-
 app.use("/api/notices", noticeRoutes);
-
 app.use("/api/contacts", contactRoutes);
-
 app.use("/api/about", aboutRoutes);
-
 app.use("/api/gallery", galleryRoutes);
-
 app.use("/api/admissions", admissionRoutes);
-
 app.use("/api/campus-chief-message", campusChiefMessageRoutes);
 
 // ===============================
 // ADMIN ROUTES
 // ===============================
 
-// Login/Register/Refresh
-
 app.use("/api/admin/auth", adminAuthRoutes);
-
-// OTP
-
 app.use("/api/admin/otp", otpRoutes);
-
-// Admin CRUD
-
 app.use("/api/admin", adminRoutes);
-
-
-// Activity Logs
-
 app.use("/api/admin/activity", activityRoutes);
 
 // ===============================
@@ -121,21 +112,19 @@ app.use("/api/admin/activity", activityRoutes);
 app.get("/", (req, res) => {
   res.json({
     success: true,
-
     message: "JMC Backend API Running Successfully",
   });
 });
 
 // ===============================
-// GLOBAL ERROR HANDLER
+// ERROR HANDLER
 // ===============================
 
 app.use((err, req, res, next) => {
-  console.log("GLOBAL ERROR:", err);
+  console.error("GLOBAL ERROR:", err);
 
   res.status(500).json({
     success: false,
-
     message: err.message || "Internal Server Error",
   });
 });
@@ -147,7 +136,6 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-
     message: "API Route Not Found",
   });
 });
@@ -159,5 +147,5 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
