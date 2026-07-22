@@ -486,7 +486,7 @@ const AdminNotice = () => {
 
                 <div className="flex flex-col gap-3 lg:w-52">
                   <a
-                    href={`http://localhost:5000${notice.file}`}
+                    href={`https://jmc-websites.onrender.com${notice.file}`}
                     target="_blank"
                     rel="noreferrer"
                     className={pdfButton}
