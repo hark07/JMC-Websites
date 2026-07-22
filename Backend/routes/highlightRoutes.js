@@ -13,6 +13,21 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
+// ===============================
+// PUBLIC ROUTES
+// ===============================
+
+// GET ALL HIGHLIGHTS
+router.get("/", getHighlights);
+
+// GET SINGLE HIGHLIGHT
+router.get("/:id", getHighlightById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE HIGHLIGHT
 router.post(
   "/",
   authMiddleware,
@@ -20,20 +35,7 @@ router.post(
   createHighlight,
 );
 
-router.get(
-  "/",
-  authMiddleware,
-  permissionMiddleware("HIGHLIGHT_READ"),
-  getHighlights,
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("HIGHLIGHT_READ"),
-  getHighlightById,
-);
-
+// UPDATE HIGHLIGHT
 router.put(
   "/:id",
   authMiddleware,
@@ -41,6 +43,7 @@ router.put(
   updateHighlight,
 );
 
+// DELETE HIGHLIGHT
 router.delete(
   "/:id",
   authMiddleware,

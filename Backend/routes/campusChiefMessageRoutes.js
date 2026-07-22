@@ -15,6 +15,21 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
+// ===============================
+// PUBLIC ROUTES
+// ===============================
+
+// GET ALL
+router.get("/", getCampusChiefMessage);
+
+// GET SINGLE
+router.get("/:id", getCampusChiefMessageById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE
 router.post(
   "/",
   authMiddleware,
@@ -23,20 +38,7 @@ router.post(
   createCampusChiefMessage,
 );
 
-router.get(
-  "/",
-  authMiddleware,
-  permissionMiddleware("MESSAGE_READ"),
-  getCampusChiefMessage,
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("MESSAGE_READ"),
-  getCampusChiefMessageById,
-);
-
+// UPDATE
 router.put(
   "/:id",
   authMiddleware,
@@ -45,6 +47,7 @@ router.put(
   updateCampusChiefMessage,
 );
 
+// DELETE
 router.delete(
   "/:id",
   authMiddleware,

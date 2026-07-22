@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import {
   FaPlus,
@@ -9,8 +9,8 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 
-import PermissionGuard from "../components/PermissionGuard";
-import { PERMISSIONS } from "../constants/permissions";
+import PermissionGuard from "../../components/PermissionGuard";
+import { PERMISSIONS } from "../../constants/permissions";
 
 const ProgramManagement = () => {
   // ===============================

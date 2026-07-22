@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/logojmc.png";
+import API from "../api/axios";
 
-// ============================
-// Reusable Input Component
-// ============================
+// =========================================
+// INPUT COMPONENT
+// =========================================
 
 const InputField = ({
   label,
@@ -15,40 +16,43 @@ const InputField = ({
   type = "text",
   required = false,
   placeholder = "",
-}) => (
-  <div className="flex flex-col gap-1">
-    <label className="font-medium text-sm">
-      {label}
-      {required && <span className="text-red-600 ml-1">*</span>}
-    </label>
+}) => {
+  return (
+    <div className="flex flex-col gap-1">
+      <label className="font-medium text-sm">
+        {label}
+        {required && <span className="text-red-600 ml-1">*</span>}
+      </label>
 
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className="w-full border border-gray-400 rounded px-3 py-2 outline-none focus:ring-2 focus:ring-blue-600"
-    />
-  </div>
-);
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="w-full border border-gray-400 rounded px-3 py-2 outline-none focus:ring-2 focus:ring-blue-600"
+      />
+    </div>
+  );
+};
 
-// ============================
-// Reusable Section Title
-// ============================
+// =========================================
+// SECTION TITLE
+// =========================================
 
-const SectionTitle = ({ title }) => (
-  <div className="bg-blue-900 text-white font-bold uppercase px-4 py-2 rounded mb-4">
-    {title}
-  </div>
-);
+const SectionTitle = ({ title }) => {
+  return (
+    <div className="bg-blue-900 text-white font-bold uppercase px-4 py-2 rounded mb-4">
+      {title}
+    </div>
+  );
+};
 
-// ============================
-// Initial Form Data
-// ============================
+// =========================================
+// INITIAL FORM DATA
+// =========================================
 
 const initialFormData = {
-  // Personal Details
   fullName: "",
   nepaliName: "",
   dobAD: "",
@@ -63,47 +67,41 @@ const initialFormData = {
   email: "",
   mobile: "",
 
-  // Permanent Address
   permanentProvince: "",
   permanentDistrict: "",
   permanentMunicipality: "",
   permanentWard: "",
   permanentTole: "",
 
-  // Temporary Address
   temporaryProvince: "",
   temporaryDistrict: "",
   temporaryMunicipality: "",
   temporaryWard: "",
   temporaryTole: "",
 
-  // Parent Details
   fatherName: "",
   fatherOccupation: "",
   fatherMobile: "",
+
   motherName: "",
   motherOccupation: "",
   motherMobile: "",
 
-  // Guardian
   guardianName: "",
   guardianRelation: "",
   guardianContact: "",
 
-  // SEE
   seeSchool: "",
   seeBoard: "",
   seeYear: "",
   seeGPA: "",
 
-  // +2
   plusTwoCollege: "",
   plusTwoBoard: "",
   plusTwoFaculty: "",
   plusTwoYear: "",
   plusTwoGPA: "",
 
-  // Admission
   faculty: "",
   program: "",
   subjectGroup: "",
@@ -111,22 +109,20 @@ const initialFormData = {
   rollNo: "",
   registrationNo: "",
 
-  // Declaration
   applicantSignature: "",
   declarationDate: "",
 
-  // Office Use
   receivedBy: "",
-  remarks: "",
-  approvedBy: "",
   verification: "",
+  approvedBy: "",
+  remarks: "",
   officeSignature: "",
   officeDate: "",
 };
 
-// ============================
-// Main Component
-// ============================
+// =========================================
+// MAIN COMPONENT
+// =========================================
 
 const AdmissionForm = () => {
   const [formData, setFormData] = useState(initialFormData);
@@ -147,9 +143,9 @@ const AdmissionForm = () => {
     other: null,
   });
 
-  // ============================
-  // Handle Input Change
-  // ============================
+  // =========================================
+  // INPUT CHANGE
+  // =========================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -160,9 +156,9 @@ const AdmissionForm = () => {
     }));
   };
 
-  // ============================
-  // Student Photo Upload
-  // ============================
+  // =========================================
+  // STUDENT PHOTO
+  // =========================================
 
   const handleStudentPhoto = (e) => {
     const file = e.target.files[0];
@@ -172,55 +168,33 @@ const AdmissionForm = () => {
     setStudentPhoto(file);
     setStudentPreview(URL.createObjectURL(file));
 
-    (toast.success("Student photo uploaded."),
-      {
-        autoClose: 3000,
-      });
+    toast.success("Student photo uploaded successfully");
   };
 
-  // ============================
-  // Document Upload
-  // ============================
+  // =========================================
+  // DOCUMENT UPLOAD
+  // =========================================
 
   const handleDocumentUpload = (e) => {
     const { name, files } = e.target;
 
-    if (!files.length) return;
+    if (!files?.length) return;
 
     setDocuments((prev) => ({
       ...prev,
       [name]: files[0],
     }));
 
-    toast.success(`${name} uploaded.`);
+    toast.success(`${name} uploaded`);
   };
 
-  // ============================
-  // Submit Form
-  // ============================
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.fullName || !formData.mobile || !formData.faculty) {
-      (toast.error("Please fill all required fields."),
-        {
-          autoClose: 3000,
-        });
-      return;
-    }
-
-    toast.success("Admission Form Submitted Successfully!");
-    console.log(formData);
-    console.log(documents);
-  };
-
-  // ============================
-  // Reset Form
-  // ============================
+  // =========================================
+  // RESET FORM
+  // =========================================
 
   const handleReset = () => {
     setFormData(initialFormData);
+
     setStudentPhoto(null);
     setStudentPreview("");
 
@@ -237,10 +211,54 @@ const AdmissionForm = () => {
       other: null,
     });
 
-    (toast.info("Form Reset Successfully."),
-      {
-        autoClose: 3000,
+    toast.info("Form reset successfully");
+  };
+
+  // =========================================
+  // SUBMIT FORM
+  // =========================================
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.fullName || !formData.mobile || !formData.faculty) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    try {
+      const form = new FormData();
+
+      Object.keys(formData).forEach((key) => {
+        form.append(key, formData[key]);
       });
+
+      if (studentPhoto) {
+        form.append("studentPhoto", studentPhoto);
+      }
+
+      Object.values(documents).forEach((file) => {
+        if (file) {
+          form.append("documents", file);
+        }
+      });
+
+      const res = await API.post("/admissions", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(
+        res.data.message || "Admission Form Submitted Successfully",
+      );
+
+      handleReset();
+    } catch (error) {
+      console.error(error);
+
+      toast.error(error.response?.data?.message || "Failed to submit form");
+    }
   };
 
   return (
@@ -253,7 +271,6 @@ const AdmissionForm = () => {
         pauseOnHover={false}
         pauseOnFocusLoss={false}
         draggable
-        theme="light"
       />
 
       <div className="bg-gray-100 min-h-screen py-8">
@@ -261,26 +278,30 @@ const AdmissionForm = () => {
           onSubmit={handleSubmit}
           className="max-w-7xl mx-auto bg-white border shadow-lg"
         >
-          {/* ================= HEADER ================= */}
+          {/* ========================================= */}
+          {/* HEADER */}
+          {/* ========================================= */}
 
           <div className="border-b p-4 md:p-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               {/* Logo */}
+
               <div className="flex justify-center md:w-28">
                 <img
                   src={logo}
-                  alt="TU Logo"
+                  alt="JMC Logo"
                   className="w-20 h-20 md:w-24 md:h-24 object-contain"
                 />
               </div>
 
-              {/* University Title */}
+              {/* Title */}
+
               <div className="flex-1 text-center order-first md:order-none">
-                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-black uppercase">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold uppercase">
                   Tribhuvan University
                 </h1>
 
-                <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase mt-2 text-black">
+                <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase mt-2">
                   Janjyoti Multiple Campus
                 </h2>
 
@@ -290,9 +311,10 @@ const AdmissionForm = () => {
               </div>
 
               {/* Student Photo */}
+
               <div className="w-32 sm:w-36 md:w-40">
                 <label htmlFor="studentPhoto" className="cursor-pointer">
-                  <div className="border-2 h-40 sm:h-48 md:h-52 flex items-center justify-center overflow-hidden">
+                  <div className="border-2 border-gray-400 h-40 sm:h-48 md:h-52 flex items-center justify-center overflow-hidden">
                     {studentPreview ? (
                       <img
                         src={studentPreview}
@@ -328,7 +350,7 @@ const AdmissionForm = () => {
             <SectionTitle title="1. Personal Details" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
+              {/* LEFT SIDE */}
 
               <div className="space-y-4">
                 <InputField
@@ -357,7 +379,7 @@ const AdmissionForm = () => {
                 <div>
                   <label className="font-medium block mb-2">Gender</label>
 
-                  <div className="flex gap-6">
+                  <div className="flex flex-wrap gap-6">
                     <label className="flex items-center gap-2">
                       <input
                         type="radio"
@@ -401,7 +423,7 @@ const AdmissionForm = () => {
                 />
 
                 <InputField
-                  label="National ID No. (If Available)"
+                  label="National ID No."
                   name="nationalId"
                   value={formData.nationalId}
                   onChange={handleChange}
@@ -446,7 +468,7 @@ const AdmissionForm = () => {
                 />
               </div>
 
-              {/* Right Column */}
+              {/* RIGHT SIDE */}
 
               <div className="space-y-4">
                 <InputField
@@ -586,15 +608,15 @@ const AdmissionForm = () => {
                 </div>
               </div>
 
-              <div className="mt-8">
-                {/* ========================================= */}
-                {/* 4. PARENT / GUARDIAN DETAILS */}
-                {/* ========================================= */}
+              {/* ========================================= */}
+              {/* 4. PARENT / GUARDIAN DETAILS */}
+              {/* ========================================= */}
 
+              <div className="mt-8">
                 <SectionTitle title="4. Parent / Guardian Details" />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Father Details */}
+                  {/* Father */}
 
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-blue-900 border-b pb-2">
@@ -625,7 +647,7 @@ const AdmissionForm = () => {
                     />
                   </div>
 
-                  {/* Mother Details */}
+                  {/* Mother */}
 
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-blue-900 border-b pb-2">
@@ -688,535 +710,287 @@ const AdmissionForm = () => {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* ========================================= */}
+              {/* 5. ACADEMIC INFORMATION */}
+              {/* ========================================= */}
+
+              <div className="mt-8">
+                <SectionTitle title="5. Academic Information" />
+
+                {/* SEE / SLC */}
+
+                <div className="mb-10">
+                  <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-4">
+                    SEE / SLC Examination
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <InputField
+                      label="School Name"
+                      name="seeSchool"
+                      value={formData.seeSchool}
+                      onChange={handleChange}
+                      required
+                    />
+
+                    <InputField
+                      label="Board / University"
+                      name="seeBoard"
+                      value={formData.seeBoard}
+                      onChange={handleChange}
+                      required
+                    />
+
+                    <InputField
+                      label="Passed Year"
+                      name="seeYear"
+                      value={formData.seeYear}
+                      onChange={handleChange}
+                    />
+
+                    <InputField
+                      label="GPA / Percentage"
+                      name="seeGPA"
+                      value={formData.seeGPA}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+
+                {/* +2 */}
+
+                <div className="mb-10">
+                  <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-4">
+                    +2 / Intermediate / Equivalent
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <InputField
+                      label="College Name"
+                      name="plusTwoCollege"
+                      value={formData.plusTwoCollege}
+                      onChange={handleChange}
+                      required
+                    />
+
+                    <InputField
+                      label="Board / University"
+                      name="plusTwoBoard"
+                      value={formData.plusTwoBoard}
+                      onChange={handleChange}
+                    />
+
+                    <InputField
+                      label="Faculty"
+                      name="plusTwoFaculty"
+                      value={formData.plusTwoFaculty}
+                      onChange={handleChange}
+                    />
+
+                    <InputField
+                      label="Passed Year"
+                      name="plusTwoYear"
+                      value={formData.plusTwoYear}
+                      onChange={handleChange}
+                    />
+
+                    <InputField
+                      label="GPA / Percentage"
+                      name="plusTwoGPA"
+                      value={formData.plusTwoGPA}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
                 <div className="mt-8">
                   {/* ========================================= */}
-                  {/* 5. ACADEMIC INFORMATION */}
+                  {/* 6. ADMISSION DETAILS */}
                   {/* ========================================= */}
 
-                  <SectionTitle title="5. Academic Information" />
+                  <SectionTitle title="6. Admission Details" />
 
-                  {/* SEE / SLC */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Left Side */}
 
-                  <div className="mb-10">
-                    <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-4">
-                      SEE / SLC Examination
-                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="font-medium block mb-2">
+                          Faculty
+                          <span className="text-red-600 ml-1">*</span>
+                        </label>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <select
+                          name="faculty"
+                          value={formData.faculty}
+                          onChange={handleChange}
+                          className="w-full border border-gray-400 rounded px-3 py-2 outline-none focus:ring-2 focus:ring-blue-600"
+                        >
+                          <option value="">Select Faculty</option>
+                          <option value="Humanities">Humanities</option>
+                          <option value="Management">Management</option>
+                          <option value="Education">Education</option>
+                          <option value="Science">Science</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="font-medium block mb-2">
+                          Program
+                        </label>
+
+                        <select
+                          name="program"
+                          value={formData.program}
+                          onChange={handleChange}
+                          className="w-full border border-gray-400 rounded px-3 py-2 outline-none focus:ring-2 focus:ring-blue-600"
+                        >
+                          <option value="">Select Program</option>
+                          <option value="BCA">BCA</option>
+                          <option value="BBS">BBS</option>
+                          <option value="BA">BA</option>
+                          <option value="B.Ed">B.Ed</option>
+                          <option value="BSc">BSc</option>
+                        </select>
+                      </div>
+
                       <InputField
-                        label="School Name"
-                        name="seeSchool"
-                        value={formData.seeSchool}
+                        label="Subject Group"
+                        name="subjectGroup"
+                        value={formData.subjectGroup}
                         onChange={handleChange}
-                        required
+                      />
+                    </div>
+
+                    {/* Right Side */}
+
+                    <div className="space-y-4">
+                      <InputField
+                        label="Academic Year"
+                        name="academicYear"
+                        value={formData.academicYear}
+                        onChange={handleChange}
+                        placeholder="2083/2084"
                       />
 
                       <InputField
-                        label="Board / University"
-                        name="seeBoard"
-                        value={formData.seeBoard}
-                        onChange={handleChange}
-                        required
-                      />
-
-                      <InputField
-                        label="Passed Year"
-                        name="seeYear"
-                        value={formData.seeYear}
+                        label="Campus Roll No."
+                        name="rollNo"
+                        value={formData.rollNo}
                         onChange={handleChange}
                       />
 
                       <InputField
-                        label="GPA / Percentage"
-                        name="seeGPA"
-                        value={formData.seeGPA}
+                        label="TU Registration No."
+                        name="registrationNo"
+                        value={formData.registrationNo}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
 
-                  {/* +2 / Equivalent */}
-
-                  <div className="mb-10">
-                    <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-4">
-                      +2 / Intermediate / Equivalent
-                    </h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                      <InputField
-                        label="College Name"
-                        name="plusTwoCollege"
-                        value={formData.plusTwoCollege}
-                        onChange={handleChange}
-                        required
-                      />
-
-                      <InputField
-                        label="Board / University"
-                        name="plusTwoBoard"
-                        value={formData.plusTwoBoard}
-                        onChange={handleChange}
-                      />
-
-                      <InputField
-                        label="Faculty"
-                        name="plusTwoFaculty"
-                        value={formData.plusTwoFaculty}
-                        onChange={handleChange}
-                      />
-
-                      <InputField
-                        label="Passed Year"
-                        name="plusTwoYear"
-                        value={formData.plusTwoYear}
-                        onChange={handleChange}
-                      />
-
-                      <InputField
-                        label="GPA / Percentage"
-                        name="plusTwoGPA"
-                        value={formData.plusTwoGPA}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
+                  {/* ========================================= */}
+                  {/* 7. REQUIRED DOCUMENTS */}
+                  {/* ========================================= */}
 
                   <div className="mt-8">
-                    {/* ========================================= */}
-                    {/* 6. ADMISSION DETAILS */}
-                    {/* ========================================= */}
-
-                    <SectionTitle title="6. Admission Details" />
+                    <SectionTitle title="7. Required Documents" />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div>
-                          <label className="font-medium block mb-2">
-                            Faculty
-                            <span className="text-red-600 ml-1">*</span>
+                      {Object.keys(documents).map((key) => (
+                        <div key={key}>
+                          <label className="block font-medium mb-2 capitalize">
+                            {key.replace(/([A-Z])/g, " $1")}
                           </label>
 
-                          <select
-                            name="faculty"
-                            value={formData.faculty}
-                            onChange={handleChange}
-                            className="w-full border border-gray-400 rounded px-3 py-2"
-                          >
-                            <option value="">Select Faculty</option>
-                            <option value="Humanities">Humanities</option>
-                            <option value="Management">Management</option>
-                            <option value="Education">Education</option>
-                            <option value="Science">Science</option>
-                          </select>
+                          <input
+                            type="file"
+                            name={key}
+                            accept=".jpg,.jpeg,.png,.pdf"
+                            onChange={handleDocumentUpload}
+                            className="w-full border rounded p-2"
+                          />
+
+                          {documents[key] && (
+                            <p className="text-green-600 text-sm mt-2">
+                              {documents[key].name}
+                            </p>
+                          )}
                         </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        <div>
-                          <label className="font-medium block mb-2">
-                            Program
-                          </label>
+                  {/* ========================================= */}
+                  {/* 8. DECLARATION */}
+                  {/* ========================================= */}
 
-                          <select
-                            name="program"
-                            value={formData.program}
-                            onChange={handleChange}
-                            className="w-full border border-gray-400 rounded px-3 py-2"
-                          >
-                            <option value="">Select Program</option>
-                            <option value="BCA">BCA</option>
-                            <option value="BBS">BBS</option>
-                            <option value="BA">BA</option>
-                            <option value="B.Ed">B.Ed</option>
-                            <option value="BSc">BSc</option>
-                          </select>
-                        </div>
+                  <div className="mt-8">
+                    <SectionTitle title="8. Declaration" />
 
-                        <InputField
-                          label="Subject Group"
-                          name="subjectGroup"
-                          value={formData.subjectGroup}
-                          onChange={handleChange}
+                    <div className="border rounded-lg p-5 space-y-5">
+                      <p className="text-justify leading-7">
+                        I hereby declare that all information provided in this
+                        admission form is true and correct to the best of my
+                        knowledge. I understand that any false information may
+                        result in cancellation of my admission.
+                      </p>
+
+                      <div className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          required
+                          className="mt-1 h-5 w-5"
                         />
+
+                        <span>
+                          I agree with the above declaration and terms.
+                        </span>
                       </div>
 
-                      <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <InputField
-                          label="Academic Year"
-                          name="academicYear"
-                          value={formData.academicYear}
+                          label="Applicant Signature"
+                          name="applicantSignature"
+                          value={formData.applicantSignature}
                           onChange={handleChange}
-                          placeholder="2083/2084"
+                          required
                         />
 
                         <InputField
-                          label="Campus Roll No."
-                          name="rollNo"
-                          value={formData.rollNo}
+                          label="Date"
+                          type="date"
+                          name="declarationDate"
+                          value={formData.declarationDate}
                           onChange={handleChange}
-                        />
-
-                        <InputField
-                          label="TU Registration No."
-                          name="registrationNo"
-                          value={formData.registrationNo}
-                          onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
+                  </div>
 
-                    <div className="mt-8">
-                      {/* ========================================= */}
-                      {/* 7. REQUIRED DOCUMENTS */}
-                      {/* ========================================= */}
+                  {/* ========================================= */}
+                  {/* BUTTONS */}
+                  {/* ========================================= */}
 
-                      <SectionTitle title="7. Required Documents" />
+                  <div className="mt-10 border-t pt-6">
+                    <div className="flex flex-wrap justify-center gap-4">
+                      <button
+                        type="submit"
+                        className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold transition"
+                      >
+                        Submit Form
+                      </button>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* SEE Marksheet */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            SEE / SLC Marksheet
-                          </label>
-
-                          <input
-                            type="file"
-                            name="seeMarksheet"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.seeMarksheet && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.seeMarksheet.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* SEE Character */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            SEE / SLC Character Certificate
-                          </label>
-
-                          <input
-                            type="file"
-                            name="seeCharacter"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.seeCharacter && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.seeCharacter.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* +2 Transcript */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            +2 Transcript
-                          </label>
-
-                          <input
-                            type="file"
-                            name="plusTwoTranscript"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.plusTwoTranscript && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.plusTwoTranscript.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* +2 Character */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            +2 Character Certificate
-                          </label>
-
-                          <input
-                            type="file"
-                            name="plusTwoCharacter"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.plusTwoCharacter && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.plusTwoCharacter.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Migration */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Migration Certificate
-                          </label>
-
-                          <input
-                            type="file"
-                            name="migration"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.migration && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.migration.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Provisional */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Provisional Certificate
-                          </label>
-
-                          <input
-                            type="file"
-                            name="provisional"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.provisional && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.provisional.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Citizenship */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Citizenship Certificate
-                          </label>
-
-                          <input
-                            type="file"
-                            name="citizenship"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.citizenship && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.citizenship.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Passport Photo */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Passport Size Photo
-                          </label>
-
-                          <input
-                            type="file"
-                            name="passportPhoto"
-                            accept=".jpg,.jpeg,.png"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.passportPhoto && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.passportPhoto.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Entrance Score */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Entrance Score Sheet
-                          </label>
-
-                          <input
-                            type="file"
-                            name="entranceScore"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.entranceScore && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.entranceScore.name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Other */}
-                        <div>
-                          <label className="block font-medium mb-2">
-                            Other Documents
-                          </label>
-
-                          <input
-                            type="file"
-                            name="other"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={handleDocumentUpload}
-                            className="w-full border rounded p-2"
-                          />
-
-                          {documents.other && (
-                            <p className="text-green-600 text-sm mt-2">
-                              {documents.other.name}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="mt-8">
-                        {/* ========================================= */}
-                        {/* 8. DECLARATION */}
-                        {/* ========================================= */}
-
-                        <SectionTitle title="8. Declaration" />
-
-                        <div className="border rounded-lg p-5 space-y-5">
-                          <p className="text-justify leading-7">
-                            I hereby declare that all the information provided
-                            in this admission form is true and correct to the
-                            best of my knowledge. I understand that if any
-                            information is found to be false or misleading, my
-                            admission may be cancelled by the campus at any
-                            time.
-                          </p>
-
-                          <div className="flex items-start gap-3">
-                            <input
-                              type="checkbox"
-                              required
-                              className="mt-1 h-5 w-5"
-                            />
-
-                            <span>I agree with the above declaration.</span>
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <InputField
-                              label="Applicant Signature"
-                              name="applicantSignature"
-                              value={formData.applicantSignature}
-                              onChange={handleChange}
-                              required
-                            />
-
-                            <InputField
-                              label="Date"
-                              name="declarationDate"
-                              type="date"
-                              value={formData.declarationDate}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        <div className="mt-10"></div>
-
-                        {/* ========================================= */}
-                        {/* OFFICE USE ONLY */}
-                        {/* ========================================= */}
-
-                        <SectionTitle title="Office Use Only" />
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <InputField
-                            label="Received By"
-                            name="receivedBy"
-                            value={formData.receivedBy}
-                            onChange={handleChange}
-                          />
-
-                          <InputField
-                            label="Verified By"
-                            name="verification"
-                            value={formData.verification}
-                            onChange={handleChange}
-                          />
-
-                          <InputField
-                            label="Approved By"
-                            name="approvedBy"
-                            value={formData.approvedBy}
-                            onChange={handleChange}
-                          />
-
-                          <InputField
-                            label="Office Signature"
-                            name="officeSignature"
-                            value={formData.officeSignature}
-                            onChange={handleChange}
-                          />
-
-                          <InputField
-                            label="Office Date"
-                            name="officeDate"
-                            type="date"
-                            value={formData.officeDate}
-                            onChange={handleChange}
-                          />
-
-                          <div className="flex flex-col gap-1">
-                            <label className="font-medium text-sm">
-                              Remarks
-                            </label>
-
-                            <textarea
-                              rows={5}
-                              name="remarks"
-                              value={formData.remarks}
-                              onChange={handleChange}
-                              className="border border-gray-400 rounded px-3 py-2 resize-none focus:ring-2 focus:ring-blue-600 outline-none"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="mt-10">
-                          {/* ========================================= */}
-                          {/* ACTION BUTTONS */}
-                          {/* ========================================= */}
-
-                          <div className="mt-10 flex flex-wrap justify-center gap-4 border-t pt-6">
-                            {/* Submit */}
-
-                            <button
-                              type="submit"
-                              className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold transition"
-                            >
-                              Submit Form
-                            </button>
-
-                            {/* Reset */}
-
-                            <button
-                              type="button"
-                              onClick={handleReset}
-                              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition"
-                            >
-                              Reset Form
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition"
+                      >
+                        Reset Form
+                      </button>
                     </div>
                   </div>
                 </div>

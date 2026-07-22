@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import API from "../api/axios";
+import API from "../../api/axios";
 
 const AdminAdmissions = () => {
   const [admissions, setAdmissions] = useState([]);
@@ -145,14 +145,14 @@ const AdminAdmissions = () => {
                         <td className="px-4 py-3">
                           <div className="flex flex-col sm:flex-row gap-2 justify-center">
                             <Link
-                              to={`/admin/admissions/${item._id}`}
+                              to={`/admission/${item._id}`}
                               className="bg-green-600 hover:bg-green-700 text-white text-center px-3 py-2 rounded-lg text-sm transition"
                             >
                               View
                             </Link>
 
                             <Link
-                              to={`/admin/admissions/edit/${item._id}`}
+                              to={`/admission/edit/${item._id}`}
                               className="bg-yellow-500 hover:bg-yellow-600 text-white text-center px-3 py-2 rounded-lg text-sm transition"
                             >
                               Edit

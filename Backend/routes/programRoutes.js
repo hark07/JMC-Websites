@@ -14,6 +14,24 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
+// ===============================
+// PUBLIC ROUTES
+// ===============================
+
+// GET ALL PROGRAMS
+router.get("/", getPrograms);
+
+// GET PROGRAM BY SLUG
+router.get("/slug/:slug", getProgramBySlug);
+
+// GET PROGRAM BY ID
+router.get("/:id", getProgramById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE PROGRAM
 router.post(
   "/",
   authMiddleware,
@@ -21,27 +39,7 @@ router.post(
   createProgram,
 );
 
-router.get(
-  "/",
-  authMiddleware,
-  permissionMiddleware("PROGRAM_READ"),
-  getPrograms,
-);
-
-router.get(
-  "/slug/:slug",
-  authMiddleware,
-  permissionMiddleware("PROGRAM_READ"),
-  getProgramBySlug,
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("PROGRAM_READ"),
-  getProgramById,
-);
-
+// UPDATE PROGRAM
 router.put(
   "/:id",
   authMiddleware,
@@ -49,6 +47,7 @@ router.put(
   updateProgram,
 );
 
+// DELETE PROGRAM
 router.delete(
   "/:id",
   authMiddleware,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaUserTie, FaUpload, FaSave, FaTrash } from "react-icons/fa";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 
 export default function CampusChiefMessage() {

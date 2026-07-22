@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import api from "../api/axios";
+import api from "../../api/axios";
 
 export default function ResetPassword() {
   const { token } = useParams();

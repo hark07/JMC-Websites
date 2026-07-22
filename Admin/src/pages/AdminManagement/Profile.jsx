@@ -4,9 +4,9 @@ import { FaUser, FaPhone, FaEnvelope, FaCamera, FaSave } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 
-import api from "../api/axios";
+import api from "../../api/axios";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Profile() {
   const { user, setUser } = useAuth();

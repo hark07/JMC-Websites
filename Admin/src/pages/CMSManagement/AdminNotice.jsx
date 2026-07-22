@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 
 import {
@@ -12,8 +12,8 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-import { hasPermission } from "./../utils/permission";
-import { PERMISSIONS } from "../constants/permissions";
+import { hasPermission } from "../../utils/permission";
+import { PERMISSIONS } from "../../constants/permissions";
 
 const AdminNotice = () => {
   // ==========================================

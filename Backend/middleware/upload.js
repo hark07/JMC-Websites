@@ -1,19 +1,33 @@
 import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import multerStorageCloudinary from "multer-storage-cloudinary";
+
 import cloudinary from "../config/cloudinary.js";
 
+
+const { CloudinaryStorage } = multerStorageCloudinary;
+
+
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+
+  cloudinary,
 
   params: {
     folder: "JMC-Hero",
 
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    allowed_formats: [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+    ],
   },
+
 });
 
+
 const upload = multer({
-  storage: storage,
+  storage,
 });
+
 
 export default upload;

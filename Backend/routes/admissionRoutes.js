@@ -1,5 +1,4 @@
 import express from "express";
-
 import upload from "../middleware/uploadAdmission.js";
 
 import {
@@ -15,36 +14,28 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
+// PUBLIC
 router.post(
   "/",
-  authMiddleware,
-  permissionMiddleware("ADMISSION_CREATE"),
-
   upload.fields([
-    {
-      name: "studentPhoto",
-      maxCount: 1,
-    },
-    {
-      name: "documents",
-      maxCount: 20,
-    },
+    { name: "studentPhoto", maxCount: 1 },
+    { name: "documents", maxCount: 20 },
   ]),
-
   createAdmission,
 );
 
+// ADMIN
 router.get(
   "/",
   authMiddleware,
-  permissionMiddleware("ADMISSION_READ"),
+  permissionMiddleware("ADMISSION_VIEW"),
   getAdmissions,
 );
 
 router.get(
   "/:id",
   authMiddleware,
-  permissionMiddleware("ADMISSION_READ"),
+  permissionMiddleware("ADMISSION_VIEW"),
   getAdmissionById,
 );
 
@@ -52,6 +43,10 @@ router.put(
   "/:id",
   authMiddleware,
   permissionMiddleware("ADMISSION_UPDATE"),
+  upload.fields([
+    { name: "studentPhoto", maxCount: 1 },
+    { name: "documents", maxCount: 20 },
+  ]),
   updateAdmission,
 );
 

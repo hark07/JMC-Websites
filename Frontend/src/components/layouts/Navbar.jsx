@@ -249,7 +249,7 @@ function Navbar() {
       {/* TICKER */}
 
       <div className="flex items-center bg-white border-y border-gray-300 overflow-hidden h-12">
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold uppercase tracking-wide px-6 h-full flex items-center shrink-0">
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold uppercase tracking-wide h-full w-[110px] sm:w-[120px] lg:w-[140px] flex items-center justify-center shrink-0 text-xs sm:text-sm lg:text-base">
           Highlights
         </div>
 

@@ -16,55 +16,47 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
-// DOWNLOAD FILE
+// ===============================
+// PUBLIC ROUTES
+// ===============================
 
+// DOWNLOAD FILE
 router.get("/file/:id", downloadFile);
 
-// CREATE
+// GET ALL DOWNLOADS
+router.get("/", getDownloads);
 
+// GET SINGLE DOWNLOAD
+router.get("/:id", getDownloadById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE DOWNLOAD
 router.post(
   "/",
   authMiddleware,
   permissionMiddleware("DOWNLOAD_CREATE"),
   upload.single("file"),
-  createDownload,
+  createDownload
 );
 
-// GET ALL
-
-router.get(
-  "/",
-  authMiddleware,
-  permissionMiddleware("DOWNLOAD_READ"),
-  getDownloads,
-);
-
-// GET SINGLE
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("DOWNLOAD_READ"),
-  getDownloadById,
-);
-
-// UPDATE
-
+// UPDATE DOWNLOAD
 router.put(
   "/:id",
   authMiddleware,
   permissionMiddleware("DOWNLOAD_UPDATE"),
   upload.single("file"),
-  updateDownload,
+  updateDownload
 );
 
-// DELETE
-
+// DELETE DOWNLOAD
 router.delete(
   "/:id",
   authMiddleware,
   permissionMiddleware("DOWNLOAD_DELETE"),
-  deleteDownload,
+  deleteDownload
 );
 
 export default router;

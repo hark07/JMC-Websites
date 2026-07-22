@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEnvelope, FaArrowLeft, FaGraduationCap } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../api/axios";
+import api from "../../api/axios";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();

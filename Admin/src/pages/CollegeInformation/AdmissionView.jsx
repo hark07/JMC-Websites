@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API from "../api/axios";
-import logo from "../assets/logojmc.png";
+import API from "../../api/axios";
+import logo from "../../assets/logojmc.png";
 
-import { hasPermission } from "../utils/hasPermission";
-import { PERMISSIONS } from "../constants/permissions";
+import { hasPermission } from "../../utils/hasPermission";
+import { PERMISSIONS } from "../../constants/permissions";
 
-// ===============================
-// Reusable Section Title
-// ===============================
+// ======================================
+// SECTION TITLE
+// ======================================
 
 const SectionTitle = ({ title }) => (
   <div className="bg-blue-900 text-white font-bold uppercase px-4 py-2 rounded mb-5 text-sm sm:text-base">
@@ -16,25 +16,26 @@ const SectionTitle = ({ title }) => (
   </div>
 );
 
-// ===============================
-// Read Only Input
-// ===============================
+// ======================================
+// READ ONLY INPUT
+// ======================================
 
 const InputField = ({ label, value }) => (
   <div className="flex flex-col gap-1">
     <label className="font-semibold text-sm text-gray-700">{label}</label>
 
     <input
-      value={value ?? ""}
+      type="text"
       readOnly
+      value={value || ""}
       className="w-full border border-gray-400 rounded px-3 py-2 bg-gray-100 outline-none text-sm"
     />
   </div>
 );
 
-// ===============================
-// Main Component
-// ===============================
+// ======================================
+// MAIN COMPONENT
+// ======================================
 
 const AdmissionView = () => {
   const { id } = useParams();
@@ -43,16 +44,24 @@ const AdmissionView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ===============================
-  // Fetch Admission Data
-  // ===============================
+  // Document Preview Modal State
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  // ======================================
+  // FETCH ADMISSION
+  // ======================================
 
   const getAdmission = async () => {
     try {
+      setLoading(true);
+
       const res = await API.get(`/admissions/${id}`);
+
       setAdmission(res.data.data);
+      setError("");
     } catch (error) {
-      console.error(error);
+      console.error("Admission Fetch Error:", error);
+
       setError("Admission not found.");
     } finally {
       setLoading(false);
@@ -60,63 +69,87 @@ const AdmissionView = () => {
   };
 
   useEffect(() => {
-    getAdmission();
+    if (id) {
+      getAdmission();
+    }
   }, [id]);
+
+  // ======================================
+  // LOADING
+  // ======================================
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
         <div className="animate-spin rounded-full h-14 w-14 border-4 border-blue-600 border-t-transparent"></div>
       </div>
     );
   }
 
+  // ======================================
+  // ERROR
+  // ======================================
+
   if (error) {
     return (
-      <div className="min-h-screen flex justify-center items-center text-red-600 text-lg sm:text-xl">
-        {error}
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        <div className="text-red-600 text-xl font-semibold">{error}</div>
+      </div>
+    );
+  }
+
+  // ======================================
+  // NO DATA
+  // ======================================
+
+  if (!admission) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        <div className="text-gray-600 text-xl">No Admission Data Found</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-4 sm:py-6 lg:py-8 px-3 sm:px-5">
-      <div className="max-w-7xl mx-auto bg-white shadow-lg border rounded-lg p-4 sm:p-6 lg:p-8">
-        {/* ================= HEADER ================= */}
+    <div className="min-h-screen bg-gray-100 py-6 px-3 sm:px-5">
+      <div className="max-w-7xl mx-auto bg-white border shadow-lg rounded-lg p-4 sm:p-6 lg:p-8">
+        {/* ====================================== */}
+        {/* HEADER */}
+        {/* ====================================== */}
 
-        <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-6 border-b pb-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border-b pb-6">
           {/* Logo */}
 
-          <div className="flex justify-center lg:justify-start">
+          <div>
             <img
               src={logo}
-              alt="Logo"
+              alt="JMC Logo"
               className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
             />
           </div>
 
-          {/* Title */}
+          {/* Campus Info */}
 
-          <div className="flex-1 text-center px-2">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase">
+          <div className="flex-1 text-center">
+            <h1 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold uppercase">
               Tribhuvan University
             </h1>
 
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold uppercase mt-2">
+            <h2 className="text-xl sm:text-2xl lg:text-4xl font-bold uppercase mt-2">
               Janjyoti Multiple Campus
             </h2>
 
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold uppercase mt-2">
+            <h3 className="text-base sm:text-lg lg:text-2xl font-bold uppercase mt-2">
               Bachelor Level Admission Form
             </h3>
           </div>
 
           {/* Student Photo */}
 
-          <div className="flex justify-center">
-            {admission.studentPhoto ? (
+          <div>
+            {admission.studentPhoto?.url ? (
               <img
-                src={admission.studentPhoto}
+                src={admission.studentPhoto.url}
                 alt="Student"
                 className="w-32 h-40 sm:w-40 sm:h-52 object-cover border-2"
               />
@@ -128,13 +161,75 @@ const AdmissionView = () => {
           </div>
         </div>
 
-        {/* ================= CONTENT START ================= */}
+        {/* ====================================== */}
+        {/* 1. PERSONAL DETAILS */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= ADDRESS DETAILS ================= */}
+          <SectionTitle title="1. Personal Details" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* ================= PERMANENT ADDRESS ================= */}
+            {/* LEFT COLUMN */}
+
+            <div className="space-y-4">
+              <InputField
+                label="Full Name (In Capital Letters)"
+                value={admission.fullName}
+              />
+
+              <InputField label="Name in Nepali" value={admission.nepaliName} />
+
+              <InputField
+                label="Date of Birth (A.D.)"
+                value={admission.dobAD}
+              />
+
+              <InputField label="Gender" value={admission.gender} />
+
+              <InputField label="Nationality" value={admission.nationality} />
+
+              <InputField
+                label="National ID No."
+                value={admission.nationalId}
+              />
+
+              <InputField
+                label="Marital Status"
+                value={admission.maritalStatus}
+              />
+
+              <InputField label="Email Address" value={admission.email} />
+            </div>
+
+            {/* RIGHT COLUMN */}
+
+            <div className="space-y-4">
+              <InputField
+                label="Date of Birth (B.S.)"
+                value={admission.dobBS}
+              />
+
+              <InputField
+                label="Citizenship No."
+                value={admission.citizenshipNo}
+              />
+
+              <InputField label="Blood Group" value={admission.bloodGroup} />
+
+              <InputField label="Religion" value={admission.religion} />
+
+              <InputField label="Mobile Number" value={admission.mobile} />
+            </div>
+          </div>
+        </div>
+
+        {/* ====================================== */}
+        {/* 2. ADDRESS DETAILS */}
+        {/* ====================================== */}
+
+        <div className="mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* PERMANENT ADDRESS */}
 
             <div>
               <SectionTitle title="2. Permanent Address" />
@@ -167,7 +262,7 @@ const AdmissionView = () => {
               </div>
             </div>
 
-            {/* ================= TEMPORARY ADDRESS ================= */}
+            {/* TEMPORARY ADDRESS */}
 
             <div>
               <SectionTitle title="3. Temporary Address" />
@@ -201,16 +296,15 @@ const AdmissionView = () => {
             </div>
           </div>
         </div>
-
-        {/* ================= PARENT / GUARDIAN DETAILS ================= */}
+        {/* ====================================== */}
+        {/* 4. PARENT / GUARDIAN DETAILS */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= PARENT / GUARDIAN DETAILS ================= */}
-
           <SectionTitle title="4. Parent / Guardian Details" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* ================= FATHER DETAILS ================= */}
+            {/* FATHER DETAILS */}
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-blue-900 border-b pb-2">
@@ -233,7 +327,7 @@ const AdmissionView = () => {
               />
             </div>
 
-            {/* ================= MOTHER DETAILS ================= */}
+            {/* MOTHER DETAILS */}
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-blue-900 border-b pb-2">
@@ -257,11 +351,11 @@ const AdmissionView = () => {
             </div>
           </div>
 
-          {/* ================= GUARDIAN DETAILS ================= */}
+          {/* GUARDIAN DETAILS */}
 
           <div className="mt-8">
             <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-5">
-              Guardian Details
+              Guardian Details (If Applicable)
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -283,14 +377,14 @@ const AdmissionView = () => {
           </div>
         </div>
 
-        {/* ================= ACADEMIC INFORMATION ================= */}
+        {/* ====================================== */}
+        {/* 5. ACADEMIC INFORMATION */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= ACADEMIC INFORMATION ================= */}
-
           <SectionTitle title="5. Academic Information" />
 
-          {/* ================= SEE DETAILS ================= */}
+          {/* SEE / SLC */}
 
           <div className="mb-10">
             <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-5">
@@ -320,7 +414,7 @@ const AdmissionView = () => {
             </div>
           </div>
 
-          {/* ================= PLUS TWO DETAILS ================= */}
+          {/* +2 / INTERMEDIATE */}
 
           <div className="mb-10">
             <h3 className="text-lg font-semibold text-blue-900 border-b pb-2 mb-5">
@@ -355,12 +449,11 @@ const AdmissionView = () => {
             </div>
           </div>
         </div>
-
-        {/* ================= ADMISSION DETAILS ================= */}
+        {/* ====================================== */}
+        {/* 6. ADMISSION DETAILS */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= ADMISSION DETAILS ================= */}
-
           <SectionTitle title="6. Admission Details" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -390,64 +483,98 @@ const AdmissionView = () => {
           </div>
         </div>
 
-        {/* ================= REQUIRED DOCUMENTS ================= */}
+        {/* ====================================== */}
+        {/* 7. REQUIRED DOCUMENTS */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= REQUIRED DOCUMENTS ================= */}
-
           <SectionTitle title="7. Required Documents" />
 
           <div className="space-y-4">
-            {admission.documents && admission.documents.length > 0 ? (
+            {admission.documents?.length > 0 ? (
               admission.documents.map((doc, index) => (
                 <div
                   key={doc._id || index}
-                  className="border rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gray-50"
+                  className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50"
                 >
                   <div>
-                    <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
-                      {doc.name}
+                    <h3 className="font-semibold text-gray-800">
+                      {doc.name || `Document ${index + 1}`}
                     </h3>
 
-                    <p className="text-sm text-gray-500">
-                      Document {index + 1}
-                    </p>
+                    <p className="text-sm text-gray-500">Uploaded File</p>
                   </div>
 
-                  {hasPermission(PERMISSIONS.ADMISSION_READ) && (
-                    <a
-                      href={doc.url || doc}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded text-sm text-center w-full sm:w-auto"
+                  {hasPermission(PERMISSIONS.ADMISSION_VIEW) && (
+                    <button
+                      onClick={() => setSelectedFile(doc.url)}
+                      className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded text-sm transition"
                     >
                       View File
-                    </a>
+                    </button>
                   )}
                 </div>
               ))
             ) : (
-              <div className="border p-5 text-center text-gray-500 rounded">
+              <div className="border rounded-lg p-5 text-center text-gray-500">
                 No Documents Uploaded
               </div>
             )}
           </div>
         </div>
 
-        {/* ================= DECLARATION ================= */}
+        {/* ====================================== */}
+        {/* DOCUMENT PREVIEW MODAL */}
+        {/* ====================================== */}
+
+        {selectedFile && (
+          <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+            <div className="bg-white w-full max-w-7xl h-[90vh] rounded-lg overflow-hidden shadow-2xl">
+              <div className="flex items-center justify-between border-b px-5 py-4">
+                <h2 className="font-semibold text-lg">Document Preview</h2>
+
+                <button
+                  onClick={() => setSelectedFile(null)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                >
+                  Close
+                </button>
+              </div>
+
+              <div className="h-[calc(90vh-70px)] bg-gray-100">
+                {selectedFile.match(/\.(jpg|jpeg|png|webp)$/i) ? (
+                  <img
+                    src={selectedFile}
+                    alt="Preview"
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <iframe
+                    src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(
+                      selectedFile,
+                    )}`}
+                    title="Document Preview"
+                    className="w-full h-full border-0"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* ====================================== */}
+        {/* 8. DECLARATION */}
+        {/* ====================================== */}
 
         <div className="mt-8">
-          {/* ================= DECLARATION ================= */}
-
           <SectionTitle title="8. Declaration" />
 
-          <div className="border rounded-lg p-4 sm:p-5 space-y-5">
-            <p className="text-justify leading-7 text-gray-700 text-sm sm:text-base">
+          <div className="border rounded-lg p-5 space-y-5">
+            <p className="text-justify leading-7 text-gray-700">
               I hereby declare that all the information provided in this
               admission form is true and correct to the best of my knowledge. I
-              understand that if any information is found to be false or
-              misleading, my admission may be cancelled by the campus at any
-              time.
+              understand that if any information is found to be false,
+              misleading, or incomplete, my admission may be cancelled by the
+              campus authority at any time.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -464,34 +591,40 @@ const AdmissionView = () => {
           </div>
         </div>
 
-        {/* ================= OFFICE USE ONLY ================= */}
+        {/* ====================================== */}
+        {/* OFFICE USE ONLY */}
+        {/* ====================================== */}
 
-        <SectionTitle title="Office Use Only" />
+        <div className="mt-8">
+          <SectionTitle title="Office Use Only" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <InputField label="Received By" value={admission.receivedBy} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <InputField label="Received By" value={admission.receivedBy} />
 
-          <InputField label="Verified By" value={admission.verification} />
+            <InputField label="Verified By" value={admission.verification} />
 
-          <InputField label="Approved By" value={admission.approvedBy} />
+            <InputField label="Approved By" value={admission.approvedBy} />
 
-          <InputField
-            label="Office Signature"
-            value={admission.officeSignature}
-          />
+            <InputField
+              label="Office Signature"
+              value={admission.officeSignature}
+            />
 
-          <InputField label="Office Date" value={admission.officeDate} />
-        </div>
+            <InputField label="Office Date" value={admission.officeDate} />
+          </div>
 
-        <div className="mt-6">
-          <label className="font-semibold text-sm text-gray-700">Remarks</label>
+          <div className="mt-6">
+            <label className="font-semibold text-sm text-gray-700">
+              Remarks
+            </label>
 
-          <textarea
-            value={admission.remarks || ""}
-            readOnly
-            rows="5"
-            className="w-full border border-gray-400 rounded px-3 py-2 bg-gray-100 mt-2 resize-none text-sm"
-          />
+            <textarea
+              value={admission.remarks || ""}
+              readOnly
+              rows={5}
+              className="w-full border border-gray-400 rounded px-3 py-2 bg-gray-100 mt-2 resize-none"
+            />
+          </div>
         </div>
       </div>
     </div>

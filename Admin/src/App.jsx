@@ -4,37 +4,25 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 
 // Auth
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import Login from "./pages/Authentication/Login";
+import Register from "./pages/Authentication/Register";
+import ForgotPassword from "./pages/Authentication/ForgotPassword";
+import ResetPassword from "./pages/Authentication/ResetPassword";
 
 // Admin
-import Profile from "./pages/Profile";
-import ChangePassword from "./pages/ChangePassword";
-import AdminManagement from "./pages/AdminManagement";
+import AdminManagement from "./pages/AdminManagement/AdminManagement";
+import Profile from "./pages/AdminManagement/Profile";
+import ChangePassword from "./pages/AdminManagement/ChangePassword";
 
 // Dashboard
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 // Content
-import Highlight from "./pages/Highlight";
-import Hero from "./pages/Hero";
-import ProgramManagement from "./pages/ProgramManagement";
-import EventManagement from "./pages/EventManagement";
-import NewsManagement from "./pages/NewsManagement";
-import DownloadManagement from "./pages/DownloadManagement";
-import AdminNotice from "./pages/AdminNotice";
-import AdminContact from "./pages/AdminContact";
-import AdminAbout from "./pages/AdminAbout";
-import GalleryManagement from "./pages/GalleryManagement";
-
-// Admission
-import AdminAdmissions from "./pages/AdminAdmissionForm";
-import AdmissionView from "./pages/AdmissionView";
-
-// Campus
-import CampusChiefMessage from "./pages/CampusChiefMessage";
+import ProgramManagement from "./pages/CMSManagement/ProgramManagement";
+import EventManagement from "./pages/CMSManagement/EventManagement";
+import NewsManagement from "./pages/CMSManagement/NewsManagement";
+import DownloadManagement from "./pages/CMSManagement/DownloadManagement";
+import AdminNotice from "./pages/CMSManagement/AdminNotice";
 
 // Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -43,6 +31,14 @@ import RequirePermission from "./routes/RequirePermission";
 
 // Permission
 import { PERMISSIONS } from "./constants/permissions";
+import AdminContact from "./pages/CollegeInformation/AdminContact";
+import AdminAbout from "./pages/CollegeInformation/AdminAbout";
+import AdminAdmissions from "./pages/CollegeInformation/AdminAdmissionForm";
+import AdmissionView from "./pages/CollegeInformation/AdmissionView";
+import CampusChiefMessage from "./pages/CollegeInformation/CampusChiefMessage";
+import Highlight from "./pages/CollegeInformation/Highlight"
+import Hero from "./pages/CollegeInformation/Hero";
+import GalleryManagement from "./pages/CollegeInformation/GalleryManagement";
 
 // =================================
 // ADMIN LAYOUT

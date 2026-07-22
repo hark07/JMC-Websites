@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { FaEdit, FaTrash, FaPlus, FaTimes, FaFilePdf } from "react-icons/fa";
 
-import { hasPermission } from "../utils/hasPermission";
-import { PERMISSIONS } from "../constants/permissions";
+import { hasPermission } from "../../utils/hasPermission";
+import { PERMISSIONS } from "../../constants/permissions";
 
 const DocumentManagement = () => {
   // ===========================================================

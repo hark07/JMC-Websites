@@ -11,72 +11,47 @@ import {
 } from "../controllers/galleryController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
-
 import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
-// CREATE GALLERY
+// ===============================
+// PUBLIC ROUTES
+// ===============================
 
+// GET ALL GALLERY
+router.get("/", getGallery);
+
+// GET SINGLE GALLERY
+router.get("/:id", getGalleryById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE GALLERY
 router.post(
   "/",
-
   authMiddleware,
-
   permissionMiddleware("GALLERY_CREATE"),
-
   upload.single("image"),
-
   createGallery,
 );
 
-// GET ALL
-
-router.get(
-  "/",
-
-  authMiddleware,
-
-  permissionMiddleware("GALLERY_READ"),
-
-  getGallery,
-);
-
-// GET SINGLE
-
-router.get(
-  "/:id",
-
-  authMiddleware,
-
-  permissionMiddleware("GALLERY_READ"),
-
-  getGalleryById,
-);
-
-// UPDATE
-
+// UPDATE GALLERY
 router.put(
   "/:id",
-
   authMiddleware,
-
   permissionMiddleware("GALLERY_UPDATE"),
-
   upload.single("image"),
-
   updateGallery,
 );
 
-// DELETE
-
+// DELETE GALLERY
 router.delete(
   "/:id",
-
   authMiddleware,
-
   permissionMiddleware("GALLERY_DELETE"),
-
   deleteGallery,
 );
 

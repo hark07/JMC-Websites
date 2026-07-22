@@ -16,9 +16,9 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 
-import api from "../api/axios";
-import { useAuth } from "../context/AuthContext";
-import { PERMISSIONS } from "../constants/permissions";
+import api from "../../api/axios";
+import { useAuth } from "../../context/AuthContext";
+import { PERMISSIONS } from "../../constants/permissions";
 
 const Dashboard = () => {
   const navigate = useNavigate();

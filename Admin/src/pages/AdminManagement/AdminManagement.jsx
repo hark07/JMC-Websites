@@ -4,18 +4,18 @@ import { FaPlus, FaEdit, FaTrash, FaSearch, FaTimes } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 
-import PermissionSelector from "../components/PermissionSelector";
+import PermissionSelector from "../../components/PermissionSelector";
 
-import PermissionGuard from "../components/PermissionGuard";
+import PermissionGuard from "../../components/PermissionGuard";
 
-import { PERMISSIONS } from "../constants/permissions";
+import { PERMISSIONS } from "../../constants/permissions";
 
 import {
   getAllAdmins,
   createAdmin,
   updateAdmin,
   deleteAdmin,
-} from "../api/adminApi";
+} from "../../api/adminApi";
 
 export default function AdminManagement() {
   const [admins, setAdmins] = useState([]);

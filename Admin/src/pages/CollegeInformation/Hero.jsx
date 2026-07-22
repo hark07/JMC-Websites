@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { FaEdit, FaTrash, FaPlus, FaTimes, FaImages } from "react-icons/fa";
 
-import PermissionGuard from "../components/PermissionGuard";
-import { PERMISSIONS } from "../constants/permissions";
+import PermissionGuard from "../../components/PermissionGuard";
+import { PERMISSIONS } from "../../constants/permissions";
 
 const Hero = () => {
   // ==========================

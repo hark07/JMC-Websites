@@ -15,8 +15,21 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
-// ================= CREATE ABOUT =================
+// ===============================
+// PUBLIC ROUTES
+// ===============================
 
+// GET ALL ABOUT
+router.get("/", getAbouts);
+
+// GET SINGLE ABOUT
+router.get("/:id", getAboutById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE ABOUT
 router.post(
   "/",
   authMiddleware,
@@ -25,21 +38,7 @@ router.post(
   createAbout,
 );
 
-// ================= GET ALL =================
-
-router.get("/", authMiddleware, permissionMiddleware("ABOUT_READ"), getAbouts);
-
-// ================= GET SINGLE =================
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("ABOUT_READ"),
-  getAboutById,
-);
-
-// ================= UPDATE =================
-
+// UPDATE ABOUT
 router.put(
   "/:id",
   authMiddleware,
@@ -48,8 +47,7 @@ router.put(
   updateAbout,
 );
 
-// ================= DELETE =================
-
+// DELETE ABOUT
 router.delete(
   "/:id",
   authMiddleware,

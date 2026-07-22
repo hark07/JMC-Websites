@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import api from "../api/axios";
+import api from "../../api/axios";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ChangePassword() {
   const navigate = useNavigate();

@@ -13,12 +13,10 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
-// PUBLIC CONTACT FORM
-
+// Public - anyone can submit the contact form
 router.post("/", createContact);
 
-// ADMIN GET ALL
-
+// Admin - view all contact submissions
 router.get(
   "/",
   authMiddleware,
@@ -26,8 +24,7 @@ router.get(
   getContacts,
 );
 
-// ADMIN SINGLE
-
+// Admin - view a single submission
 router.get(
   "/:id",
   authMiddleware,
@@ -35,8 +32,7 @@ router.get(
   getContactById,
 );
 
-// MARK READ / UPDATE
-
+// Admin - update/mark as read
 router.put(
   "/:id",
   authMiddleware,
@@ -44,8 +40,7 @@ router.put(
   updateContact,
 );
 
-// DELETE
-
+// Admin - delete a submission
 router.delete(
   "/:id",
   authMiddleware,

@@ -13,6 +13,21 @@ import permissionMiddleware from "../middleware/permissionMiddleware.js";
 
 const router = express.Router();
 
+// ===============================
+// PUBLIC ROUTES
+// ===============================
+
+// GET ALL EVENTS
+router.get("/", getEvents);
+
+// GET SINGLE EVENT
+router.get("/:id", getEventById);
+
+// ===============================
+// PROTECTED ADMIN ROUTES
+// ===============================
+
+// CREATE EVENT
 router.post(
   "/",
   authMiddleware,
@@ -20,15 +35,7 @@ router.post(
   createEvent,
 );
 
-router.get("/", authMiddleware, permissionMiddleware("EVENT_READ"), getEvents);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  permissionMiddleware("EVENT_READ"),
-  getEventById,
-);
-
+// UPDATE EVENT
 router.put(
   "/:id",
   authMiddleware,
@@ -36,6 +43,7 @@ router.put(
   updateEvent,
 );
 
+// DELETE EVENT
 router.delete(
   "/:id",
   authMiddleware,

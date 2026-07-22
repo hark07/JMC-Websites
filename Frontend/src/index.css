@@ -21,9 +21,13 @@ body {
 
 .ticker-track {
   display: flex;
+
   align-items: center;
+
   width: max-content;
-  animation: ticker-scroll 25s linear infinite;
+
+  animation: ticker-scroll 30s linear infinite;
+
   will-change: transform;
 }
 
@@ -33,33 +37,57 @@ body {
 
 .ticker-item {
   display: flex;
+
   align-items: center;
+
   white-space: nowrap;
+
   flex-shrink: 0;
+
   padding: 0 42px;
+
   font-size: 15px;
+
   font-weight: 500;
+
   color: #1f2937;
+
   position: relative;
 }
 
+/* Red Bullet */
+
 .ticker-item::before {
   content: "";
+
   width: 8px;
+
   height: 8px;
+
   border-radius: 999px;
+
   background: #ef4444;
+
   margin-right: 12px;
 }
 
+/* Divider */
+
 .ticker-item::after {
   content: "";
+
   width: 1px;
+
   height: 18px;
+
   background: #d1d5db;
+
   position: absolute;
+
   right: 0;
 }
+
+/* Animation */
 
 @keyframes ticker-scroll {
   0% {
@@ -71,37 +99,49 @@ body {
   }
 }
 
-/* Fade effect on both sides */
+/* ==========================================
+   SIDE FADE EFFECT
+========================================== */
 
 .ticker-fade-left,
 .ticker-fade-right {
   position: absolute;
+
   top: 0;
+
   width: 40px;
+
   height: 100%;
+
   pointer-events: none;
+
   z-index: 2;
 }
 
 .ticker-fade-left {
   left: 0;
+
   background: linear-gradient(to right, #ffffff, transparent);
 }
 
 .ticker-fade-right {
   right: 0;
+
   background: linear-gradient(to left, #ffffff, transparent);
 }
 
-/* Mobile */
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
 
 @media (max-width: 768px) {
   .ticker-track {
-    animation-duration: 20s;
+    animation-duration: 30s;
   }
 
   .ticker-item {
     font-size: 14px;
+
     padding: 0 28px;
   }
 }
