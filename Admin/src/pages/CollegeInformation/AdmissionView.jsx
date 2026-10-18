@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../../api/axios";
 import logo from "../../assets/logojmc.png";
 
 import { hasPermission } from "../../utils/hasPermission";
 import { PERMISSIONS } from "../../constants/permissions";
+
+const navigate = useNavigate();
 
 // ======================================
 // SECTION TITLE
@@ -112,9 +114,10 @@ const AdmissionView = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 px-3 sm:px-5">
+      {/* Back Button */}
       <button
-        
-        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition"
+        onClick={() => navigate("/admission")}
+        className="mb-5 inline-flex items-center gap-2 bg-[#082b4f] hover:bg-red-500 text-white px-6 py-3 rounded-lg transition"
       >
         ← Back
       </button>
