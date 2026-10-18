@@ -225,7 +225,7 @@ function Footer() {
           <p className="text-gray-500 text-sm">
             Designed & Developed by{" "}
             <span className="text-yellow-400 font-semibold">
-              JMCe
+              Hark Dhami
             </span>
           </p>
         </div>
