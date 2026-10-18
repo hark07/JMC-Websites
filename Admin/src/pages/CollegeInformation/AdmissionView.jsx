@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../../api/axios";
 import logo from "../../assets/logojmc.png";
 
 import { hasPermission } from "../../utils/hasPermission";
 import { PERMISSIONS } from "../../constants/permissions";
 
-import { useNavigate } from "react-router-dom";
 
 const navigate = useNavigate();
 
