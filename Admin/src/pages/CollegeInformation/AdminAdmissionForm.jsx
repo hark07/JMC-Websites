@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../../api/axios";
 
 const AdminAdmissions = () => {
   const [admissions, setAdmissions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Fetch All Admissions
   const fetchAdmissions = async () => {
@@ -55,6 +56,14 @@ const AdminAdmissions = () => {
 
       <div className="min-h-screen bg-gray-100 p-3 sm:p-5 lg:p-6">
         <div className="max-w-7xl mx-auto">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm transition mb-4"
+          >
+            ← Back
+          </button>
+
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center text-blue-700 mb-6">
             Admin Admission Dashboard
           </h1>
