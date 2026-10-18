@@ -117,6 +117,8 @@ const AdmissionView = () => {
         {/* HEADER */}
         {/* ====================================== */}
 
+        <p>Back</p>
+
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border-b pb-6">
           {/* Logo */}
 
