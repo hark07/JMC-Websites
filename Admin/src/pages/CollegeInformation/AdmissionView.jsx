@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import API from "../../api/axios";
 import logo from "../../assets/logojmc.png";
 
@@ -113,12 +113,11 @@ const AdmissionView = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-6 px-3 sm:px-5">
       {/* Back Button */}
-      <button
-        type="button"
+      <Link to="/admission"
         className="mb-5 inline-flex items-center gap-2 bg-[#082b4f] hover:bg-red-500 text-white px-6 py-3 rounded-lg transition"
       >
         ← Back
-      </button>
+      </Link>
 
       <div className="max-w-7xl mx-auto bg-white border shadow-lg rounded-lg p-4 sm:p-6 lg:p-8">
         {/* ====================================== */}
