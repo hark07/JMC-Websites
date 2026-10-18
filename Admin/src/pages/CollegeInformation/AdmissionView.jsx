@@ -117,6 +117,13 @@ const AdmissionView = () => {
         {/* HEADER */}
         {/* ====================================== */}
 
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm transition mb-4"
+        >
+          ← Back
+        </button>
+
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border-b pb-6">
           {/* Logo */}
 
