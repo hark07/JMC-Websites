@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import API from "../../api/axios";
 import logo from "../../assets/logojmc.png";
 
 import { hasPermission } from "../../utils/hasPermission";
 import { PERMISSIONS } from "../../constants/permissions";
+
+const navigate = useNavigate();
 
 // ======================================
 // SECTION TITLE
