@@ -6,6 +6,10 @@ import logo from "../../assets/logojmc.png";
 import { hasPermission } from "../../utils/hasPermission";
 import { PERMISSIONS } from "../../constants/permissions";
 
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
 // ======================================
 // SECTION TITLE
 // ======================================
@@ -112,7 +116,12 @@ const AdmissionView = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 px-3 sm:px-5">
-      <p>Back</p>
+      <button
+        onClick={() => navigate("/admission")}
+        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition"
+      >
+        ← Back
+      </button>
 
       <div className="max-w-7xl mx-auto bg-white border shadow-lg rounded-lg p-4 sm:p-6 lg:p-8">
         {/* ====================================== */}
