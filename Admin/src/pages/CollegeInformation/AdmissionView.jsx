@@ -112,12 +112,12 @@ const AdmissionView = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 px-3 sm:px-5">
+      <p>Back</p>
+
       <div className="max-w-7xl mx-auto bg-white border shadow-lg rounded-lg p-4 sm:p-6 lg:p-8">
         {/* ====================================== */}
         {/* HEADER */}
         {/* ====================================== */}
-
-        <p>Back</p>
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border-b pb-6">
           {/* Logo */}
